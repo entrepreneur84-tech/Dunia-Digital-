@@ -1,1 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Login - Dunia Digital</title>
+  <link rel="stylesheet" href="/pages/assets/css/style.css">
+</head>
+<body>
 
+<header class="navbar">
+  <div class="nav-left">
+    <img src="/pages/assets/img/brand/logo.png" class="logo">
+    <span class="brand">Dunia Digital</span>
+  </div>
+</header>
+
+<div class="login-box">
+  <h2>Login Member</h2>
+
+  <form id="loginForm">
+    <input type="email" name="email" placeholder="Email" required>
+    <button>Login</button>
+  </form>
+</div>
+
+<script>
+document.getElementById("loginForm").addEventListener("submit", async e=>{
+  e.preventDefault();
+  const form = new FormData(e.target);
+
+  const res = await fetch("/api/login", {
+    method:"POST",
+    body:form
+  });
+
+  const json = await res.json();
+  if(json.success){
+    localStorage.setItem("user", JSON.stringify(json.user));
+    window.location.href = "/pages/dashboard/index.html";
+  } else {
+    alert("Login gagal");
+  }
+});
+</script>
+
+</body>
+  </html>
