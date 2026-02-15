@@ -1,1 +1,63 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <title>Checkout Dunia Digital</title>
+  <link rel="stylesheet" href="/assets/css/style.css">
+</head>
+<body>
+  <div class="container">
+    <h2>Checkout Order</h2>
 
+    <label>Nama</label><br>
+    <input id="name" placeholder="Nama lengkap"><br>
+
+    <label>Email</label><br>
+    <input id="email" placeholder="Email aktif"><br>
+
+    <label>Metode Pembayaran</label><br>
+    <select id="method">
+      <option>Transfer SeaBank</option>
+      <option>Transfer Bank Jago</option>
+      <option>BTC</option>
+      <option>ETH</option>
+    </select>
+
+    <h3>Rekening Pembayaran</h3>
+
+    <div class="payment-box">
+      <h4>SeaBank / Bank Kesejahteraan Ekonomi</h4>
+      <p>Nama: AHMAD BARIZI</p>
+      <p>No Rekening: <strong>901981495649</strong></p>
+      <p>Kode Bank: 535</p>
+      <p>SWIFT: SSPIIDJA</p>
+    </div>
+
+    <div class="payment-box">
+      <h4>Bank Jago</h4>
+      <p>Nama: AHMAD BARIZI</p>
+      <p>No Rekening: <strong>109896731184</strong></p>
+    </div>
+
+    <button class="btn" onclick="submitOrder()">Konfirmasi & Kirim WhatsApp</button>
+  </div>
+
+<script>
+async function submitOrder(){
+  const data={
+    name:document.getElementById("name").value,
+    email:document.getElementById("email").value,
+    product:localStorage.getItem("product"),
+    method:document.getElementById("method").value
+  };
+
+  const res=await fetch("/api/order",{method:"POST",body:JSON.stringify(data)});
+  const json=await res.json();
+
+  if(json.whatsapp_link){
+    window.location.href=json.whatsapp_link;
+  }
+}
+</script>
+</body>
+</html>
