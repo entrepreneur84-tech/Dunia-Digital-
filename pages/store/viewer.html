@@ -1,1 +1,49 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <title>Viewer Ebook Premium</title>
+  <link rel="stylesheet" href="/assets/css/style.css">
+</head>
+<body>
+  <div class="container">
+    <h2>Viewer Ebook Premium</h2>
+    <p>Masukkan License Key untuk membuka ebook.</p>
 
+    <input id="license" placeholder="Masukkan License Key"><br>
+    <button class="btn" onclick="checkLicense()">Buka Ebook</button>
+
+    <div id="viewer" style="display:none; margin-top:20px;">
+      <h3>Akses Diberikan ✅</h3>
+      <iframe src="https://example.com/ebook.pdf" width="100%" height="600"></iframe>
+    </div>
+
+    <h3 id="status"></h3>
+  </div>
+
+<script>
+async function checkLicense(){
+  const license=document.getElementById("license").value;
+
+  if(!license){
+    alert("Masukkan license key dulu");
+    return;
+  }
+
+  const res=await fetch("/api/license",{
+    method:"POST",
+    body:JSON.stringify({license})
+  });
+
+  const json=await res.json();
+
+  if(json.valid){
+    document.getElementById("viewer").style.display="block";
+    document.getElementById("status").innerText="License valid. Ebook terbuka.";
+  }else{
+    document.getElementById("status").innerText="License tidak valid ❌";
+  }
+}
+</script>
+</body>
+  </html>
