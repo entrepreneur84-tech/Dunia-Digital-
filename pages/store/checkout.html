@@ -1,63 +1,57 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-  <meta charset="UTF-8">
-  <title>Checkout Dunia Digital</title>
-  <link rel="stylesheet" href="/assets/css/style.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Checkout - Dunia Digital</title>
+  <link rel="stylesheet" href="/assets/css/style.css" />
 </head>
 <body>
-  <div class="container">
-    <h2>Checkout Order</h2>
 
-    <label>Nama</label><br>
-    <input id="name" placeholder="Nama lengkap"><br>
+  <section style="max-width:600px;margin:auto;padding:40px 20px;">
+    <h1>Checkout Ebook</h1>
+    <p>Silakan konfirmasi pesanan Anda melalui WhatsApp setelah memilih produk.</p>
 
-    <label>Email</label><br>
-    <input id="email" placeholder="Email aktif"><br>
+    <hr />
 
-    <label>Metode Pembayaran</label><br>
-    <select id="method">
-      <option>Transfer SeaBank</option>
-      <option>Transfer Bank Jago</option>
-      <option>BTC</option>
-      <option>ETH</option>
+    <h3>Pilih Produk</h3>
+
+    <select id="product" style="width:100%;padding:12px;margin:15px 0;">
+      <option value="Ebook Spiritual Basic - 100K">Ebook Spiritual Basic - 100K</option>
+      <option value="Ebook Spiritual Pro - 200K">Ebook Spiritual Pro - 200K</option>
+      <option value="Bundle Spiritual Premium - 250K">Bundle Spiritual Premium - 250K</option>
     </select>
 
-    <h3>Rekening Pembayaran</h3>
+    <h3>Metode Pembayaran</h3>
+    <ul>
+      <li>Transfer SeaBank</li>
+      <li>Transfer Bank Jago</li>
+      <li>Crypto BTC / ETH</li>
+    </ul>
 
-    <div class="payment-box">
-      <h4>SeaBank / Bank Kesejahteraan Ekonomi</h4>
-      <p>Nama: AHMAD BARIZI</p>
-      <p>No Rekening: <strong>901981495649</strong></p>
-      <p>Kode Bank: 535</p>
-      <p>SWIFT: SSPIIDJA</p>
-    </div>
+    <button onclick="checkoutWA()" class="btn-primary" style="width:100%;margin-top:20px;">
+      Konfirmasi via WhatsApp
+    </button>
 
-    <div class="payment-box">
-      <h4>Bank Jago</h4>
-      <p>Nama: AHMAD BARIZI</p>
-      <p>No Rekening: <strong>109896731184</strong></p>
-    </div>
+    <p style="margin-top:20px;font-size:13px;opacity:0.7;">
+      Setelah transfer, kirim bukti pembayaran melalui WhatsApp agar pesanan diproses.
+    </p>
+  </section>
 
-    <button class="btn" onclick="submitOrder()">Konfirmasi & Kirim WhatsApp</button>
-  </div>
+  <script>
+    function checkoutWA() {
+      const product = document.getElementById("product").value;
 
-<script>
-async function submitOrder(){
-  const data={
-    name:document.getElementById("name").value,
-    email:document.getElementById("email").value,
-    product:localStorage.getItem("product"),
-    method:document.getElementById("method").value
-  };
+      const text = encodeURIComponent(
+        "Halo Admin Dunia Digital,%0A%0ASaya ingin memesan:%0A" +
+        product +
+        "%0A%0AMohon info pembayaran & proses selanjutnya."
+      );
 
-  const res=await fetch("/api/order",{method:"POST",body:JSON.stringify(data)});
-  const json=await res.json();
+      const url = "https://wa.me/6285175313909?text=" + text;
+      window.open(url, "_blank");
+    }
+  </script>
 
-  if(json.whatsapp_link){
-    window.location.href=json.whatsapp_link;
-  }
-}
-</script>
 </body>
 </html>
