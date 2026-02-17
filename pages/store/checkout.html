@@ -2,56 +2,139 @@
 <html lang="id">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Checkout - Dunia Digital</title>
   <link rel="stylesheet" href="/assets/css/style.css" />
+
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #020617;
+      color: white;
+    }
+    .container {
+      max-width: 600px;
+      margin: auto;
+      padding: 40px 20px;
+    }
+    h1 { text-align: center; }
+
+    .box {
+      background: #0f172a;
+      padding: 25px;
+      border-radius: 16px;
+      margin-top: 20px;
+      box-shadow: 0 12px 30px rgba(0,0,0,0.4);
+    }
+
+    label {
+      display: block;
+      margin-top: 15px;
+      font-weight: bold;
+    }
+
+    input, textarea {
+      width: 100%;
+      padding: 12px;
+      margin-top: 6px;
+      border-radius: 10px;
+      border: none;
+      background: #020617;
+      color: white;
+    }
+
+    .payment {
+      margin-top: 20px;
+      padding: 15px;
+      border-radius: 12px;
+      background: #020617;
+      line-height: 1.8;
+    }
+
+    .btn {
+      display: block;
+      width: 100%;
+      text-align: center;
+      margin-top: 25px;
+      padding: 15px;
+      border-radius: 14px;
+      background: linear-gradient(135deg, #7c3aed, #06b6d4);
+      text-decoration: none;
+      font-weight: bold;
+      color: white;
+      font-size: 16px;
+      cursor: pointer;
+    }
+
+    .note {
+      margin-top: 15px;
+      font-size: 14px;
+      opacity: 0.8;
+    }
+  </style>
 </head>
 <body>
 
-  <section style="max-width:600px;margin:auto;padding:40px 20px;">
-    <h1>Checkout Ebook</h1>
-    <p>Silakan konfirmasi pesanan Anda melalui WhatsApp setelah memilih produk.</p>
+<div class="container">
+  <h1>🧾 Checkout Ebook</h1>
 
-    <hr />
+  <div class="box">
+    <h3 id="productName">Produk: -</h3>
+    <div class="price">Harga: Rp 100.000</div>
 
-    <h3>Pilih Produk</h3>
+    <label>Nama Lengkap</label>
+    <input type="text" id="nama" placeholder="Masukkan nama lengkap">
 
-    <select id="product" style="width:100%;padding:12px;margin:15px 0;">
-      <option value="Ebook Spiritual Basic - 100K">Ebook Spiritual Basic - 100K</option>
-      <option value="Ebook Spiritual Pro - 200K">Ebook Spiritual Pro - 200K</option>
-      <option value="Bundle Spiritual Premium - 250K">Bundle Spiritual Premium - 250K</option>
-    </select>
+    <label>No WhatsApp</label>
+    <input type="text" id="wa" placeholder="08xxxxxxxxxx">
 
-    <h3>Metode Pembayaran</h3>
-    <ul>
-      <li>Transfer SeaBank</li>
-      <li>Transfer Bank Jago</li>
-      <li>Crypto BTC / ETH</li>
-    </ul>
+    <label>Catatan (opsional)</label>
+    <textarea id="catatan" rows="3" placeholder="Contoh: kirim ke email juga"></textarea>
 
-    <button onclick="checkoutWA()" class="btn-primary" style="width:100%;margin-top:20px;">
-      Konfirmasi via WhatsApp
-    </button>
+    <div class="payment">
+      <b>Metode Pembayaran:</b><br><br>
+      💳 SeaBank : 901981495649 a.n AHMAD BARIZI<br>
+      🏦 Bank Jago : 109896731184 a.n AHMAD BARIZI<br>
+      ₿ Crypto BTC / ETH tersedia (chat WA)
+    </div>
 
-    <p style="margin-top:20px;font-size:13px;opacity:0.7;">
-      Setelah transfer, kirim bukti pembayaran melalui WhatsApp agar pesanan diproses.
-    </p>
-  </section>
+    <a id="btnWA" class="btn">Konfirmasi & Kirim Bukti via WhatsApp</a>
 
-  <script>
-    function checkoutWA() {
-      const product = document.getElementById("product").value;
+    <div class="note">
+      Setelah transfer, klik tombol di atas untuk kirim bukti pembayaran & otomatis aktivasi ebook.
+    </div>
+  </div>
+</div>
 
-      const text = encodeURIComponent(
-        "Halo Admin Dunia Digital,%0A%0ASaya ingin memesan:%0A" +
-        product +
-        "%0A%0AMohon info pembayaran & proses selanjutnya."
-      );
+<script>
+  const urlParams = new URLSearchParams(window.location.search);
+  const product = urlParams.get("product") || "Ebook Premium Spiritual";
 
-      const url = "https://wa.me/6285175313909?text=" + text;
-      window.open(url, "_blank");
-    }
-  </script>
+  document.getElementById("productName").innerText = "Produk: " + product;
+
+  document.getElementById("btnWA").onclick = () => {
+    const nama = document.getElementById("nama").value || "-";
+    const wa = document.getElementById("wa").value || "-";
+    const catatan = document.getElementById("catatan").value || "-";
+
+    const text = `
+Halo Admin Dunia Digital 🌌
+
+Saya ingin membeli ebook:
+📘 ${product}
+
+👤 Nama: ${nama}
+📱 WA: ${wa}
+📝 Catatan: ${catatan}
+
+Saya sudah transfer. Mohon aktivasi & kirim akses ebook 🙏
+    `;
+
+    const encoded = encodeURIComponent(text);
+    window.open(`https://wa.me/6285175313909?text=${encoded}`, "_blank");
+  };
+</script>
 
 </body>
 </html>
