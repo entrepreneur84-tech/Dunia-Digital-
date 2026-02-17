@@ -1,49 +1,171 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Dashboard Admin - Dunia Digital</title>
-  <link rel="stylesheet" href="/assets/css/style.css">
+  <link rel="stylesheet" href="/assets/css/style.css" />
+
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #020617;
+      color: white;
+    }
+    header {
+      padding: 16px;
+      text-align: center;
+      background: #020617;
+      border-bottom: 1px solid #1e293b;
+      font-weight: bold;
+      letter-spacing: 1px;
+    }
+    .container {
+      max-width: 900px;
+      margin: auto;
+      padding: 30px 20px;
+    }
+    .card {
+      background: #0f172a;
+      padding: 20px;
+      border-radius: 16px;
+      margin-bottom: 20px;
+      box-shadow: 0 12px 30px rgba(0,0,0,0.4);
+    }
+    input, select {
+      width: 100%;
+      padding: 12px;
+      border-radius: 10px;
+      border: none;
+      margin-top: 8px;
+      background: #020617;
+      color: white;
+    }
+    label {
+      margin-top: 15px;
+      display: block;
+      font-weight: bold;
+    }
+    button {
+      margin-top: 20px;
+      padding: 14px;
+      border-radius: 12px;
+      border: none;
+      width: 100%;
+      font-weight: bold;
+      background: linear-gradient(135deg,#7c3aed,#06b6d4);
+      color: white;
+      cursor: pointer;
+    }
+    .result {
+      margin-top: 20px;
+      padding: 15px;
+      background: #020617;
+      border-radius: 12px;
+      font-size: 14px;
+      line-height: 1.6;
+    }
+    .license {
+      font-size: 18px;
+      font-weight: bold;
+      color: #22c55e;
+      margin-top: 10px;
+    }
+  </style>
 </head>
 <body>
-  <div class="container">
-    <h1>Dashboard Admin Dunia Digital</h1>
-    <p>Panel verifikasi order & aktivasi lisensi ebook premium</p>
 
-    <h2>Approve Order Manual</h2>
+<header>🎛️ Dashboard Admin Dunia Digital</header>
 
-    <label>Masukkan Order ID</label><br>
-    <input id="orderId" placeholder="Contoh: 123e4567"><br>
+<div class="container">
 
-    <button onclick="approveOrder()">Approve & Aktifkan License</button>
+  <div class="card">
+    <h2>Aktivasi License Pembeli</h2>
 
-    <h2>Generate License Manual</h2>
-    <button onclick="generateLicense()">Generate License Baru</button>
+    <label>Email Pembeli</label>
+    <input type="email" id="email" placeholder="contoh@email.com">
 
-    <h3 id="result"></h3>
+    <label>Produk Ebook</label>
+    <select id="product">
+      <option value="Ebook Spiritual Premium">Ebook Spiritual Premium</option>
+      <option value="Bundle Spiritual Mastery">Bundle Spiritual Mastery</option>
+      <option value="Sistem Energi & Kesadaran">Sistem Energi & Kesadaran</option>
+    </select>
+
+    <button onclick="activateLicense()">Aktifkan License</button>
+
+    <div class="result" id="resultBox" style="display:none;">
+      <div>License berhasil dibuat:</div>
+      <div class="license" id="licenseKey"></div>
+
+      <div style="margin-top:10px;">
+        Link Akses Viewer:
+        <div id="viewerLink"></div>
+      </div>
+
+      <button onclick="sendToWhatsApp()">Kirim License ke WhatsApp</button>
+    </div>
   </div>
 
-<script>
-async function approveOrder(){
-  const id=document.getElementById("orderId").value;
+</div>
 
-  if(!id){
-    alert("Masukkan Order ID dulu");
-    return;
+<script>
+  let generatedLicense = "";
+
+  async function activateLicense() {
+    const email = document.getElementById("email").value;
+    const product = document.getElementById("product").value;
+
+    if (!email) {
+      alert("Email wajib diisi");
+      return;
+    }
+
+    const res = await fetch("/api/activate", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({ email, product })
+    });
+
+    const data = await res.json();
+
+    if (data.success) {
+      generatedLicense = data.license;
+
+      document.getElementById("licenseKey").innerText = data.license;
+
+      const viewerURL = window.location.origin + "/store/viewer.html?key=" + data.license;
+      document.getElementById("viewerLink").innerText = viewerURL;
+
+      document.getElementById("resultBox").style.display = "block";
+    } else {
+      alert("Gagal membuat license");
+    }
   }
 
-  const license="LIC-"+Math.random().toString(36).substring(2,10).toUpperCase();
+  function sendToWhatsApp() {
+    if (!generatedLicense) return;
 
-  document.getElementById("result").innerText =
-    "Order Disetujui! License: "+license+
-    " | Kirim ke pembeli via WhatsApp.";
-}
+    const viewerURL = window.location.origin + "/store/viewer.html?key=" + generatedLicense;
 
-function generateLicense(){
-  const license="LIC-"+Math.random().toString(36).substring(2,10).toUpperCase();
-  document.getElementById("result").innerText =
-    "License Baru: "+license;
-}
+    const text = `
+Halo, license ebook Anda sudah aktif ✨
+
+🔑 License: ${generatedLicense}
+📖 Akses Ebook:
+${viewerURL}
+
+Silakan buka link di atas untuk membaca ebook.
+Terima kasih 🙏
+    `;
+
+    const encoded = encodeURIComponent(text);
+    window.open("https://wa.me/6285175313909?text=" + encoded, "_blank");
+  }
 </script>
+
 </body>
 </html>
