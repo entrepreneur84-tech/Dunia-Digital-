@@ -138,6 +138,36 @@ document.getElementById("checkoutForm").addEventListener("submit", async functio
         alert("Terjadi kesalahan.");
     }
 });
-  </script>
+  </script> <h2>Checkout Ebook</h2>
+
+<form id="checkoutForm">
+  <input type="text" id="name" placeholder="Nama Lengkap" required><br><br>
+  <input type="email" id="email" placeholder="Email Aktif" required><br><br>
+  <button type="submit">Konfirmasi Pesanan</button>
+</form>
+
+<script>
+document.getElementById("checkoutForm").addEventListener("submit", async function(e){
+  e.preventDefault();
+
+  const product = new URLSearchParams(window.location.search).get("product");
+
+  const response = await fetch("/api/checkout", {
+    method: "POST",
+    headers: {"Content-Type":"application/json"},
+    body: JSON.stringify({
+      name: document.getElementById("name").value,
+      email: document.getElementById("email").value,
+      product: product
+    })
+  });
+
+  const result = await response.json();
+
+  if(result.success){
+    window.location.href = "success.html?order=" + result.orderId;
+  }
+});
+</script>
 </body>
 </html>
