@@ -3,65 +3,53 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Instruksi Pembayaran</title>
+<title>Pembayaran Transfer Bank</title>
 
 <style>
 body{
   margin:0;
   font-family:Arial, sans-serif;
-  background:linear-gradient(135deg,#0f172a,#1e293b);
+  background:#0f172a;
   color:white;
   text-align:center;
-  padding:30px;
+  padding:25px;
 }
-
 .container{
-  max-width:500px;
+  max-width:600px;
   margin:auto;
-  background:#111827;
+  background:#1e293b;
   padding:25px;
   border-radius:12px;
-  box-shadow:0 10px 30px rgba(0,0,0,0.5);
 }
-
-h2{
-  margin-bottom:10px;
-}
-
 .box{
-  background:#1f2937;
+  background:#111827;
   padding:15px;
   border-radius:10px;
   margin:15px 0;
 }
-
-button{
-  padding:10px 15px;
-  border:none;
-  border-radius:8px;
-  cursor:pointer;
-  font-weight:bold;
+.price{
+  font-size:28px;
+  color:#22c55e;
 }
-
-.copy-btn{
+button{
+  padding:8px 12px;
+  border:none;
+  border-radius:6px;
   background:#2563eb;
   color:white;
+  cursor:pointer;
+  margin-top:5px;
 }
-
-.upload-btn{
-  background:#16a34a;
-  color:white;
-  width:100%;
-  margin-top:15px;
-}
-
-input[type="file"]{
-  margin-top:10px;
-  color:white;
+.timer{
+  color:#facc15;
 }
 .small{
   font-size:13px;
   opacity:0.8;
+}
+a{
+  color:#22c55e;
+  text-decoration:none;
 }
 </style>
 </head>
@@ -70,32 +58,53 @@ input[type="file"]{
 
 <div class="container">
 
-<h2>💳 Pembayaran SeaBank</h2>
+<h2>💳 Pembayaran Transfer Bank</h2>
 
-<p>Silakan transfer sesuai nominal berikut:</p>
+<div class="price" id="price"></div>
+<p class="timer">Sisa waktu: <span id="timer"></span></p>
 
+<!-- ================= BANK JAGO ================= -->
 <div class="box">
-  <h3>Rp 99.000</h3>
-  <p class="small">Nominal harus tepat agar mudah diverifikasi</p>
+<h3>Bank Jago</h3>
+<p><b>Kode Bank:</b> 542</p>
+<p><b>SWIFT/BIC:</b> ARTOIDJA</p>
+<p><b>No. Rekening:</b> <span id="jago">109896731184</span></p>
+<p><b>Atas Nama:</b> Ahmad Barizi</p>
+<button onclick="copyText('jago')">Salin Rekening Jago</button>
 </div>
 
+<!-- ================= SEABANK ================= -->
 <div class="box">
-  <h3>SeaBank</h3>
-  <p id="rekening">9010XXXXXXX</p>
-  <p>Atas Nama: <b>Nama Kamu</b></p>
-  <button class="copy-btn" onclick="copyRek()">Salin Nomor Rekening</button>
+<h3>SeaBank / Bank Kesejahteraan Ekonomi</h3>
+<p><b>Kode Bank:</b> 535</p>
+<p><b>SWIFT:</b> SSPIIDJA</p>
+<p><b>No. Rekening:</b> <span id="sea">901981495649</span></p>
+<p><b>Atas Nama:</b> AHMAD BARIZI</p>
+<button onclick="copyText('sea')">Salin Rekening SeaBank</button>
 </div>
 
-<hr style="margin:25px 0; opacity:0.2;">
+<hr style="opacity:0.2;margin:20px 0;">
 
 <h3>Upload Bukti Transfer</h3>
 
-<form id="uploadForm" enctype="multipart/form-data">
-  <input type="file" id="file" accept="image/*" required>
-  <button type="submit" class="upload-btn">Kirim Bukti</button>
+<form id="uploadForm">
+<input type="file" id="file" accept="image/*" required><br><br>
+<button type="submit">Kirim Bukti Transfer</button>
 </form>
 
-<p class="small">Setelah upload, tunggu verifikasi admin (1-24 jam)</p>
+<p class="small">
+Setelah upload, tunggu verifikasi admin.
+</p>
+
+<hr style="opacity:0.2;margin:20px 0;">
+
+<p>📞 WhatsApp Admin:</p>
+<a href="https://wa.me/6285175313909" target="_blank">
+6285175313909
+</a>
+
+<p>📧 Email:</p>
+<p>barizilumajang@gmail.com</p>
 
 </div>
 
@@ -103,42 +112,63 @@ input[type="file"]{
 
 const orderId = new URLSearchParams(window.location.search).get("order");
 
-function copyRek(){
-  const rek = document.getElementById("rekening").innerText;
-  navigator.clipboard.writeText(rek);
-  alert("Nomor rekening disalin");
+async function load(){
+  const res = await fetch("/api/order?id="+orderId);
+  const data = await res.json();
+
+  document.getElementById("price").innerText =
+    "Transfer Tepat: Rp " + data.price.toLocaleString("id-ID");
+
+  startTimer(data.expiredAt);
+
+  if(data.status === "paid"){
+    window.location.href =
+      "viewer.html?order="+orderId+"&token="+data.token;
+  }
 }
 
-document.getElementById("uploadForm").addEventListener("submit", async function(e){
+function startTimer(exp){
+  setInterval(()=>{
+    const diff = exp - Date.now();
+    if(diff <= 0){
+      document.getElementById("timer").innerText="EXPIRED";
+      return;
+    }
+    const m = Math.floor(diff/1000/60);
+    document.getElementById("timer").innerText=m+" menit";
+  },1000);
+}
+
+function copyText(id){
+  const text = document.getElementById(id).innerText;
+  navigator.clipboard.writeText(text);
+  alert("Disalin: " + text);
+}
+
+document.getElementById("uploadForm")
+.addEventListener("submit", async function(e){
   e.preventDefault();
 
-  const fileInput = document.getElementById("file");
-
-  if(!orderId){
-    alert("Order tidak ditemukan");
-    return;
-  }
-
-  const formData = new FormData();
-  formData.append("orderId", orderId);
-  formData.append("file", fileInput.files[0]);
+  const fd = new FormData();
+  fd.append("orderId", orderId);
+  fd.append("file", document.getElementById("file").files[0]);
 
   const res = await fetch("/api/upload", {
     method:"POST",
-    body:formData
+    body:fd
   });
 
-  const result = await res.json();
-
-  if(result.success){
+  if(res.ok){
     alert("Bukti berhasil dikirim. Tunggu verifikasi.");
   }else{
-    alert("Gagal upload.");
+    alert("Order sudah expired.");
   }
-
 });
+
+setInterval(load,5000);
+load();
 
 </script>
 
 </body>
-</html>
+</html>yang 
