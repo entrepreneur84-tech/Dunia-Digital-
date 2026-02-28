@@ -1,40 +1,23 @@
-/* ======================================
-   DUNIA DIGITAL SHOP - ANALYTICS.JS
-   Fungsi:
-   - Tracking page view
-   - Tracking klik tombol beli
-   - Siap dikembangkan untuk Google Analytics / custom tracking
-====================================== */
+// assets/js/analytics.js
 
-// ==============================
-// PAGE VIEW TRACKING
-// ==============================
-function trackPageView(page) {
-  console.log(`📊 Page viewed: ${page}`);
-  // Di sini bisa kirim data ke server atau GA
-}
+document.addEventListener("DOMContentLoaded", function() {
+  // Simple page view counter
+  if(!localStorage.getItem("pageViews")) {
+    localStorage.setItem("pageViews", 0);
+  }
+  let views = parseInt(localStorage.getItem("pageViews"));
+  views += 1;
+  localStorage.setItem("pageViews", views);
+  console.log(`Anda sudah mengunjungi halaman ini ${views} kali.`);
 
-// ==============================
-// BUTTON CLICK TRACKING
-// ==============================
-function trackButtonClick(product) {
-  console.log(`🛒 Tombol beli diklik: ${product}`);
-  // Bisa kirim ke server / GA
-}
-
-// ==============================
-// AUTO PAGE VIEW ON LOAD
-// ==============================
-document.addEventListener("DOMContentLoaded", () => {
-  const page = window.location.pathname;
-  trackPageView(page);
-
-  // Tambahkan listener untuk semua tombol beli
-  document.querySelectorAll(".btn").forEach(btn => {
-    btn.addEventListener("click", (e) => {
-      const card = btn.closest(".card");
-      const title = card ? card.querySelector(".title").textContent : "Unknown";
-      trackButtonClick(title);
+  // Track Beli Sekarang clicks
+  const buyButtons = document.querySelectorAll(".btn");
+  buyButtons.forEach(button => {
+    button.addEventListener("click", function() {
+      const productTitle = this.closest(".card").querySelector(".title").textContent;
+      console.log(`Produk dibeli: ${productTitle}`);
+      // Bisa dihubungkan ke server / Google Analytics
     });
   });
+
 });
