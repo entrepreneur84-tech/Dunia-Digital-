@@ -1,140 +1,86 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Checkout - Dunia Digital</title>
-  <link rel="stylesheet" href="/assets/css/style.css" />
-
-  <style>
-    body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-      background: #020617;
-      color: white;
-    }
-    .container {
-      max-width: 600px;
-      margin: auto;
-      padding: 40px 20px;
-    }
-    h1 { text-align: center; }
-
-    .box {
-      background: #0f172a;
-      padding: 25px;
-      border-radius: 16px;
-      margin-top: 20px;
-      box-shadow: 0 12px 30px rgba(0,0,0,0.4);
-    }
-
-    label {
-      display: block;
-      margin-top: 15px;
-      font-weight: bold;
-    }
-
-    input, textarea {
-      width: 100%;
-      padding: 12px;
-      margin-top: 6px;
-      border-radius: 10px;
-      border: none;
-      background: #020617;
-      color: white;
-    }
-
-    .payment {
-      margin-top: 20px;
-      padding: 15px;
-      border-radius: 12px;
-      background: #020617;
-      line-height: 1.8;
-    }
-
-    .btn {
-      display: block;
-      width: 100%;
-      text-align: center;
-      margin-top: 25px;
-      padding: 15px;
-      border-radius: 14px;
-      background: linear-gradient(135deg, #7c3aed, #06b6d4);
-      text-decoration: none;
-      font-weight: bold;
-      color: white;
-      font-size: 16px;
-      cursor: pointer;
-    }
-
-    .note {
-      margin-top: 15px;
-      font-size: 14px;
-      opacity: 0.8;
-    }
-  </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Checkout - Dunia Digital Shop</title>
+  <link rel="stylesheet" href="../assets/css/style.css">
 </head>
 <body>
+  <div class="container">
+    <h1>🛒 Checkout Produk</h1>
 
-<div class="container">
-  <h1>🧾 Checkout Ebook</h1>
-
-  <div class="box">
-    <h3 id="productName">Produk: -</h3>
-    <div class="price">Harga: Rp 100.000</div>
-
-    <label>Nama Lengkap</label>
-    <input type="text" id="nama" placeholder="Masukkan nama lengkap">
-
-    <label>No WhatsApp</label>
-    <input type="text" id="wa" placeholder="08xxxxxxxxxx">
-
-    <label>Catatan (opsional)</label>
-    <textarea id="catatan" rows="3" placeholder="Contoh: kirim ke email juga"></textarea>
-
-    <div class="payment">
-      <b>Metode Pembayaran:</b><br><br>
-      💳 SeaBank : 901981495649 a.n AHMAD BARIZI<br>
-      🏦 Bank Jago : 109896731184 a.n AHMAD BARIZI<br>
-      ₿ Crypto BTC / ETH tersedia (chat WA)
+    <div id="checkoutContainer">
+      <!-- Produk yang dipilih akan muncul di sini otomatis -->
     </div>
 
-    <a id="btnWA" class="btn">Konfirmasi & Kirim Bukti via WhatsApp</a>
-
-    <div class="note">
-      Setelah transfer, klik tombol di atas untuk kirim bukti pembayaran & otomatis aktivasi ebook.
+    <div id="totalContainer" style="margin-top:20px;font-size:18px;font-weight:bold;">
+      Total: <span id="totalAmount">0</span>
     </div>
+
+    <button id="confirmPurchase" class="btn" style="margin-top:20px;">Konfirmasi Pembelian</button>
+
+    <footer style="margin-top:40px;">
+      © 2026 Dunia Digital Shop — Toko Ebook Premium Spiritual
+    </footer>
   </div>
-</div>
 
-<script>
-  const urlParams = new URLSearchParams(window.location.search);
-  const product = urlParams.get("product") || "Ebook Premium Spiritual";
+  <script src="../assets/js/app.js"></script>
+  <script src="../assets/js/analytics.js"></script>
+  <script>
+    // Ambil data produk dari localStorage
+    const checkoutContainer = document.getElementById('checkoutContainer');
+    const totalAmountSpan = document.getElementById('totalAmount');
+    let cart = JSON.parse(localStorage.getItem('selectedEbook')) || [];
+    let total = 0;
 
-  document.getElementById("productName").innerText = "Produk: " + product;
+    if(cart.length === 0){
+      checkoutContainer.innerHTML = '<p>Belum ada produk yang dipilih. <a href="../pages/ebooks.html">Kembali ke katalog</a></p>';
+    } else {
+      cart.forEach(item => {
+        // Default harga bisa ditambahkan di item.harga
+        const price = item.harga || 99000; // default 99.000
+        total += price;
 
-  document.getElementById("btnWA").onclick = () => {
-    const nama = document.getElementById("nama").value || "-";
-    const wa = document.getElementById("wa").value || "-";
-    const catatan = document.getElementById("catatan").value || "-";
+        const card = document.createElement('div');
+        card.className = 'card';
+        card.style.marginBottom = '20px';
+        card.innerHTML = `
+          <img src="../assets/img/${item.img}" alt="${item.title}" style="width:150px;float:left;margin-right:15px;">
+          <div class="card-body" style="overflow:hidden;">
+            <div class="title">${item.title}</div>
+            <div class="desc">${item.desc}</div>
+            <div class="price">Harga: Rp ${price.toLocaleString()}</div>
+          </div>
+        `;
+        checkoutContainer.appendChild(card);
+      });
 
-    const text = `
-Halo Admin Dunia Digital 🌌
+      totalAmountSpan.textContent = 'Rp ' + total.toLocaleString();
+    }
 
-Saya ingin membeli ebook:
-📘 ${product}
+    // Tombol konfirmasi
+    document.getElementById('confirmPurchase').addEventListener('click', () => {
+      if(cart.length === 0){
+        alert('Belum ada produk yang dipilih.');
+        return;
+      }
 
-👤 Nama: ${nama}
-📱 WA: ${wa}
-📝 Catatan: ${catatan}
+      // Simpan order ke localStorage atau panggil API server
+      const orders = JSON.parse(localStorage.getItem('orders')) || [];
+      orders.push({
+        items: cart,
+        total: total,
+        date: new Date().toISOString()
+      });
+      localStorage.setItem('orders', JSON.stringify(orders));
 
-Saya sudah transfer. Mohon aktivasi & kirim akses ebook 🙏
-    `;
+      // Kosongkan cart
+      localStorage.removeItem('selectedEbook');
 
-    const encoded = encodeURIComponent(text);
-    window.open(`https://wa.me/6285175313909?text=${encoded}`, "_blank");
-  };
-</script>
-
+      // Redirect ke halaman sukses
+      window.location.href = '../pages/success.html';
+    });
+  </script>
 </body>
 </html>
