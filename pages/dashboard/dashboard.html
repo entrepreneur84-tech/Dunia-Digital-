@@ -1,0 +1,13 @@
+<h2>Admin Dashboard</h2>
+<div id="data"></div>
+
+<script>
+fetch("/api/admin")
+.then(res=>res.json())
+.then(data=>{
+  document.getElementById("data").innerHTML =
+    "Total Omzet: Rp " +
+    data.totalOmzet.toLocaleString("id-ID") +
+    "<br>Total Order: " + data.totalOrders;
+});
+</script>
