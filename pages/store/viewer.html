@@ -2,129 +2,28 @@
 <html lang="id">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Preview Ebook - Dunia Digital</title>
-<link rel="stylesheet" href="../assets/css/style.css">
-
+<title>Viewer Ebook</title>
 <style>
 body{
-  background:#020617;
-  color:#fff;
-  font-family:Arial, sans-serif;
-  margin:0;
-}
-.viewer-container{
-  max-width:1000px;
-  margin:auto;
-  padding:20px;
+  background:#0f172a;
+  color:white;
   text-align:center;
+  padding:40px;
+  font-family:sans-serif;
 }
-.viewer-title{
-  font-size:26px;
-  font-weight:bold;
-  color:#22c55e;
-  margin-bottom:20px;
-}
-.viewer-box{
-  background:#020617;
-  border-radius:16px;
-  padding:20px;
-  box-shadow:0 10px 40px rgba(0,0,0,0.6);
-}
-.viewer-box img{
+iframe{
   width:100%;
-  max-width:420px;
-  border-radius:12px;
-  box-shadow:0 10px 30px rgba(0,0,0,0.5);
-  user-select:none;
-  -webkit-user-drag:none;
-}
-.viewer-desc{
-  margin-top:20px;
-  color:#94a3b8;
-  font-size:15px;
-}
-.btn-buy{
-  display:inline-block;
-  margin-top:25px;
-  padding:14px 26px;
-  background:linear-gradient(45deg,#22c55e,#16a34a);
-  color:#fff;
-  text-decoration:none;
-  border-radius:10px;
-  font-weight:bold;
-  font-size:16px;
-}
-.btn-buy:hover{
-  background:linear-gradient(45deg,#16a34a,#22c55e);
+  height:90vh;
+  border:none;
 }
 </style>
 </head>
+<body>
 
-<body oncontextmenu="return false">
+<h2>Ebook Viewer</h2>
+<p>Selamat membaca 📖</p>
 
-<div class="viewer-container">
-  <div class="viewer-title" id="ebookTitle">Preview Ebook</div>
-
-  <div class="viewer-box">
-    <img id="ebookImage" src="../assets/img/ksatria-spiritual.png" alt="Preview Ebook">
-    <div class="viewer-desc">
-      Ini adalah preview mockup ebook premium.  
-      Klik tombol beli untuk mendapatkan versi lengkapnya.
-    </div>
-
-    <a id="buyBtn" href="checkout.html" class="btn-buy">Beli Ebook Ini</a>
-  </div>
-</div>
-
-<script>
-// Ambil parameter ?product=Nama Ebook
-const params = new URLSearchParams(window.location.search);
-const product = params.get("product") || "Preview Ebook";
-
-// Ubah judul halaman
-document.getElementById("ebookTitle").innerText = product;
-
-// Mapping nama ebook -> file gambar
-const imageMap = {
-  "Ksatria Spiritual":"ksatria-spiritual.png",
-  "Rahasia Membongkar Potensi Diri":"rahasia-membongkar-potensi-diri.png",
-  "Quantum Dzikir":"quantum-dzikir.png",
-  "Quantum Cahaya":"quantum-cahaya.png",
-  "Quantum Syukur":"quantum-syukur.png",
-  "Hakikat Quantum Ihsan":"hakikat-quantum-ihsan.png",
-  "The Art of Surrender":"the-art-of-surrender.png",
-  "Law of Spiritual Attraction":"law-of-spiritual-attraction.png",
-  "The Radiance Within":"the-radiance-within.png",
-  "Healing Dzikir of Powerful":"healing-dzikir-of-powerful.png",
-  "Jatidiri":"jatidiri.png",
-  "The Dzikir of Powerfull":"the-dzikir-of-powerfull.png",
-  "Membongkar Realitas Hologram":"membongkar-realitas-hologram.png",
-  "The Untouchable":"the-untouchable.png",
-  "Quantum Ruh":"quantum-ruh.png",
-  "Zero Points Dzikir":"zero-points-dzikir.png",
-  "Pasrah Adalah Dzikir":"pasrah-adalah-dzikir.png",
-  "Manunggal":"manunggal.png",
-  "Navigasi Cahaya":"navigasi-cahaya.png",
-  "Rahasia Menemukan Kode Sumber Realitas":"rahasia-menemukan-kode-sumber-realitas.png",
-  "Menguak Potensi Diri Tanpa Batas":"menguak-potensi-diri-tanpa-batas.png",
-  "Cara Jitu Berdamai Dengan Diri":"cara-jitu-berdamai-dengan-diri.png",
-  "Tauhid Quantum":"tauhid-quantum.png"
-};
-
-// Set gambar sesuai produk
-if(imageMap[product]){
-  document.getElementById("ebookImage").src = "../assets/img/" + imageMap[product];
-}
-
-// Set link tombol beli otomatis
-document.getElementById("buyBtn").href = "checkout.html?product=" + encodeURIComponent(product);
-
-// Proteksi drag gambar
-document.addEventListener("dragstart", function(e){
-  e.preventDefault();
-});
-</script>
+<iframe src="/assets/ebooks/sample.pdf"></iframe>
 
 </body>
 </html>
