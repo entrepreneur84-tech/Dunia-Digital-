@@ -81,6 +81,39 @@
       // Redirect ke halaman sukses
       window.location.href = '../pages/success.html';
     });
+    <script>
+// Ambil parameter produk dari URL
+const urlParams = new URLSearchParams(window.location.search);
+const product = urlParams.get('product') || 'Produk Tidak Diketahui';
+
+// Isi nama produk di halaman
+document.getElementById("productName").innerText = product;
+
+// Handle submit form
+document.getElementById("checkoutForm").addEventListener("submit", function(e){
+  e.preventDefault();
+
+  const nama  = document.getElementById("nama").value;
+  const email = document.getElementById("email").value;
+
+  // Ambil data order lama
+  let orders = JSON.parse(localStorage.getItem("orders") || "[]");
+
+  // Tambahkan order baru
+  orders.push({
+    nama: nama,
+    email: email,
+    produk: product,
+    tanggal: new Date().toLocaleString()
+  });
+
+  // Simpan ke localStorage
+  localStorage.setItem("orders", JSON.stringify(orders));
+
+  // Redirect ke halaman sukses
+  window.location.href = "../success.html?product=" + encodeURIComponent(product);
+});
+</script>
   </script>
 </body>
 </html>
