@@ -145,3 +145,104 @@ img {
   gap: 20px;
   padding: 20px;
   }
+/* ===== STORE PREMIUM DESIGN ===== */
+
+.store-section {
+  padding: 40px 20px;
+  text-align: center;
+  background: linear-gradient(180deg, #0f172a, #111827);
+}
+
+.store-title {
+  color: #fff;
+  font-size: 24px;
+  margin-bottom: 30px;
+}
+
+.book-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 30px;
+  max-width: 1200px;
+  margin: auto;
+}
+
+.book-card {
+  background: #1f2937;
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.4);
+  transition: 0.3s ease;
+  position: relative;
+}
+
+.book-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 20px 40px rgba(0,0,0,0.6);
+}
+
+.book-card img {
+  width: 100%;
+  height: auto;
+}
+
+.book-content {
+  padding: 20px;
+  text-align: left;
+}
+
+.book-content h3 {
+  color: #fff;
+  margin-bottom: 5px;
+}
+
+.author {
+  font-size: 14px;
+  color: #9ca3af;
+  margin-bottom: 10px;
+}
+
+.desc {
+  font-size: 14px;
+  color: #d1d5db;
+  margin-bottom: 15px;
+}
+
+.price {
+  font-size: 18px;
+  font-weight: bold;
+  color: #22c55e;
+  margin-bottom: 15px;
+}
+
+.btn-buy {
+  display: block;
+  text-align: center;
+  padding: 12px;
+  background: linear-gradient(90deg, #22c55e, #16a34a);
+  color: white;
+  border-radius: 10px;
+  text-decoration: none;
+  font-weight: bold;
+  transition: 0.3s;
+}
+
+.btn-buy:hover {
+  background: linear-gradient(90deg, #16a34a, #15803d);
+}
+
+.badge {
+  position: absolute;
+  top: 15px;
+  left: 15px;
+  background: #f59e0b;
+  color: black;
+  font-size: 12px;
+  padding: 6px 10px;
+  border-radius: 20px;
+  font-weight: bold;
+}
+
+.best-seller {
+  border: 2px solid #f59e0b;
+  }
