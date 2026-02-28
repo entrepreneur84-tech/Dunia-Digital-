@@ -3,9 +3,9 @@ export default {
 
     const url = new URL(request.url);
 
-    // ===============================
-    // 1. CHECKOUT ENGINE
-    // ===============================
+    // ==========================
+    // CHECKOUT
+    // ==========================
     if (url.pathname === "/api/checkout" && request.method === "POST") {
 
       const data = await request.json();
@@ -16,51 +16,80 @@ export default {
         name: data.name,
         email: data.email,
         product: data.product,
-        status: "pending",
+        status: "waiting_payment",
         created: Date.now()
       }));
 
-      return new Response(JSON.stringify({
-        success: true,
-        orderId: orderId
-      }), {
-        headers: { "Content-Type": "application/json" }
-      });
+      return Response.json({ success:true, orderId });
     }
 
-    // ===============================
-    // 2. PROTECTED VIEWER
-    // ===============================
+    // ==========================
+    // UPLOAD BUKTI
+    // ==========================
+    if (url.pathname === "/api/upload" && request.method === "POST") {
+
+      const form = await request.formData();
+      const orderId = form.get("orderId");
+      const file = form.get("file");
+
+      if (!orderId || !file) {
+        return new Response("Data tidak lengkap", {status:400});
+      }
+
+      await env.PROOFS.put(orderId, await file.arrayBuffer());
+
+      const order = await env.ORDERS.get(orderId);
+      const parsed = JSON.parse(order);
+      parsed.status = "waiting_verification";
+      await env.ORDERS.put(orderId, JSON.stringify(parsed));
+
+      return Response.json({ success:true });
+    }
+
+    // ==========================
+    // SET PAID (ADMIN)
+    // ==========================
+    if (url.pathname === "/api/set-paid") {
+
+      const id = url.searchParams.get("id");
+      const order = await env.ORDERS.get(id);
+
+      if (!order) return new Response("Not found", {status:404});
+
+      const parsed = JSON.parse(order);
+      parsed.status = "paid";
+      await env.ORDERS.put(id, JSON.stringify(parsed));
+
+      return new Response("Updated");
+    }
+
+    // ==========================
+    // VIEWER PROTECTION
+    // ==========================
     if (url.pathname === "/pages/store/viewer.html") {
 
       const orderId = url.searchParams.get("order");
 
-      if (!orderId) {
-        return new Response("Akses ditolak", { status: 403 });
-      }
+      if (!orderId) return new Response("Forbidden", {status:403});
 
       const order = await env.ORDERS.get(orderId);
-      if (!order) {
-        return new Response("Order tidak ditemukan", { status: 404 });
-      }
+      if (!order) return new Response("Not found", {status:404});
 
       const parsed = JSON.parse(order);
 
       if (parsed.status !== "paid") {
-        return new Response("Pembayaran belum diverifikasi", { status: 403 });
+        return new Response("Belum diverifikasi", {status:403});
       }
 
       return fetch(request);
     }
 
-    // ===============================
-    // 3. LIST ORDERS (ADMIN)
-    // ===============================
+    // ==========================
+    // LIST ORDERS
+    // ==========================
     if (url.pathname === "/api/orders") {
       const list = await env.ORDERS.list();
-      return new Response(JSON.stringify(list), {
-        headers: { "Content-Type": "application/json" }
-      });
+      return Response.json(list);
     }
 
     return fetch(request);
