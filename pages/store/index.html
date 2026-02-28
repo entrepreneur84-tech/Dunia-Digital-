@@ -1,120 +1,255 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Store - Dunia Digital</title>
-  <link rel="stylesheet" href="/assets/css/style.css" />
-
-  <style>
-    body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-      background: #020617;
-      color: white;
-    }
-    .container {
-      max-width: 1200px;
-      margin: auto;
-      padding: 40px 20px;
-      text-align: center;
-    }
-    h1 { margin-bottom: 10px; }
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-      gap: 24px;
-      margin-top: 40px;
-    }
-    .card {
-      background: #0f172a;
-      border-radius: 18px;
-      padding: 20px;
-      box-shadow: 0 12px 30px rgba(0,0,0,0.4);
-      transition: 0.3s;
-    }
-    .card:hover { transform: translateY(-6px); }
-    .card img {
-      width: 100%;
-      border-radius: 12px;
-      margin-bottom: 15px;
-    }
-    .price {
-      font-size: 18px;
-      font-weight: bold;
-      margin: 10px 0;
-      color: #22c55e;
-    }
-    .btn-buy {
-      display: inline-block;
-      margin-top: 10px;
-      padding: 12px 20px;
-      border-radius: 12px;
-      background: linear-gradient(135deg, #7c3aed, #06b6d4);
-      color: white;
-      text-decoration: none;
-      font-weight: bold;
-    }
-  </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Toko Ebook - Dunia Digital Shop</title>
+  <link rel="stylesheet" href="../assets/css/style.css">
 </head>
 <body>
 
-<div class="container">
-  <h1>📚 Store Ebook Spiritual Premium</h1>
-  <p>Pilih ebook kesadaran diri & spiritual tingkat lanjut.</p>
+  <div class="container">
+    <h1>📚 Toko Ebook Dunia Digital</h1>
 
-  <div class="grid">
+    <div class="grid">
 
-    <!-- AUTO LIST PRODUK -->
-    <script>
-      const products = [
-        "cara_jitu_berdamai",
-        "hakikat-quantum-ih",
-        "healing_dzikir_of_p",
-        "jatidiri1_copy_337x",
-        "ksatria_spiritual_co",
-        "law_of_spiritual_attr",
-        "manunggal_copy_3",
-        "membongkar_realit",
-        "menguak-potensi-d",
-        "navigasi_cahaya_c",
-        "pasrah-itu-dzikir_co",
-        "pasrah_adalah_dzik",
-        "quantum-syukur_co",
-        "quantum_cahaya_c",
-        "quantum_dzikir_co",
-        "quantum_ruh_copy",
-        "rahasia_membongk",
-        "rahasia_menemuka",
-        "tauhid-quantum_co",
-        "the_art_of_surrend",
-        "the_dzikir_of_powe",
-        "the_radiance_withi",
-        "the_untouchable_c",
-        "zero_points_dzikir"
-      ];
+      <!-- 1 -->
+      <div class="card">
+        <img src="../assets/img/ksatria-spiritual.png" alt="Ksatria Spiritual">
+        <div class="card-body">
+          <div class="title">Ksatria Spiritual</div>
+          <div class="desc">Perjalanan menjadi pejuang kesadaran dan keteguhan ruhani.</div>
+          <a href="checkout.html?product=Ksatria%20Spiritual" class="btn">Beli Sekarang</a>
+        </div>
+      </div>
 
-      const grid = document.currentScript.parentElement;
+      <!-- 2 -->
+      <div class="card">
+        <img src="../assets/img/rahasia-membongkar-potensi-diri.png" alt="Rahasia Membongkar Potensi Diri">
+        <div class="card-body">
+          <div class="title">Rahasia Membongkar Potensi Diri</div>
+          <div class="desc">Membuka kekuatan tersembunyi dalam diri tanpa batas.</div>
+          <a href="checkout.html?product=Rahasia%20Membongkar%20Potensi%20Diri" class="btn">Beli Sekarang</a>
+        </div>
+      </div>
 
-      products.forEach(name => {
-        const title = name.replace(/[_-]/g, " ").toUpperCase();
+      <!-- 3 -->
+      <div class="card">
+        <img src="../assets/img/quantum-dzikir.png" alt="Quantum Dzikir">
+        <div class="card-body">
+          <div class="title">Quantum Dzikir</div>
+          <div class="desc">Mengaktifkan frekuensi dzikir menuju kesadaran quantum.</div>
+          <a href="checkout.html?product=Quantum%20Dzikir" class="btn">Beli Sekarang</a>
+        </div>
+      </div>
 
-        grid.innerHTML += `
-          <div class="card">
-            <img src="/assets/img/${name}.png" alt="${title}">
-            <h3>${title}</h3>
-            <p>Ebook premium spiritual & pengembangan kesadaran diri.</p>
-            <div class="price">Rp 100.000</div>
-            <a href="/store/checkout.html?product=${encodeURIComponent(title)}" class="btn-buy">
-              Beli Sekarang
-            </a>
-          </div>
-        `;
-      });
-    </script>
+      <!-- 4 -->
+      <div class="card">
+        <img src="../assets/img/quantum-cahaya.png" alt="Quantum Cahaya">
+        <div class="card-body">
+          <div class="title">Quantum Cahaya</div>
+          <div class="desc">Transformasi energi cahaya dalam kesadaran spiritual.</div>
+          <a href="checkout.html?product=Quantum%20Cahaya" class="btn">Beli Sekarang</a>
+        </div>
+      </div>
 
-  </div>
-</div>
+      <!-- 5 -->
+      <div class="card">
+        <img src="../assets/img/quantum-syukur.png" alt="Quantum Syukur">
+        <div class="card-body">
+          <div class="title">Quantum Syukur</div>
+          <div class="desc">Mengaktifkan energi syukur untuk perubahan hidup total.</div>
+          <a href="checkout.html?product=Quantum%20Syukur" class="btn">Beli Sekarang</a>
+        </div>
+      </div>
+
+      <!-- 6 -->
+      <div class="card">
+        <img src="../assets/img/hakikat-quantum-ihsan.png" alt="Hakikat Quantum Ihsan">
+        <div class="card-body">
+          <div class="title">Hakikat Quantum Ihsan</div>
+          <div class="desc">Memahami ihsan sebagai kesadaran spiritual tingkat tinggi.</div>
+          <a href="checkout.html?product=Hakikat%20Quantum%20Ihsan" class="btn">Beli Sekarang</a>
+        </div>
+      </div>
+
+      <!-- 7 -->
+      <div class="card">
+        <img src="../assets/img/the-art-of-surrender.png" alt="The Art of Surrender">
+        <div class="card-body">
+          <div class="title">The Art of Surrender</div>
+          <div class="desc">Seni pasrah menuju ketenangan dan kekuatan batin sejati.</div>
+          <a href="checkout.html?product=The%20Art%20of%20Surrender" class="btn">Beli Sekarang</a>
+        </div>
+      </div>
+
+      <!-- 8 -->
+      <div class="card">
+        <img src="../assets/img/law-of-spiritual-attraction.png" alt="Law of Spiritual Attraction">
+        <div class="card-body">
+          <div class="title">Law of Spiritual Attraction</div>
+          <div class="desc">Hukum tarik-menarik spiritual dalam realitas kesadaran.</div>
+          <a href="checkout.html?product=Law%20of%20Spiritual%20Attraction" class="btn">Beli Sekarang</a>
+        </div>
+      </div>
+
+      <!-- 9 -->
+      <div class="card">
+        <img src="../assets/img/the-radiance-within.png" alt="The Radiance Within">
+        <div class="card-body">
+          <div class="title">The Radiance Within</div>
+          <div class="desc">Menemukan cahaya Ilahi yang bersinar dari dalam diri.</div>
+          <a href="checkout.html?product=The%20Radiance%20Within" class="btn">Beli Sekarang</a>
+        </div>
+      </div>
+
+      <!-- 10 -->
+      <div class="card">
+        <img src="../assets/img/healing-dzikir-of-powerful.png" alt="Healing Dzikir of Powerful">
+        <div class="card-body">
+          <div class="title">Healing Dzikir of Powerful</div>
+          <div class="desc">Teknik dzikir energi tinggi untuk penyembuhan jiwa.</div>
+          <a href="checkout.html?product=Healing%20Dzikir%20of%20Powerful" class="btn">Beli Sekarang</a>
+        </div>
+      </div>
+
+      <!-- 11 -->
+      <div class="card">
+        <img src="../assets/img/jatidiri.png" alt="Jatidiri">
+        <div class="card-body">
+          <div class="title">Jatidiri</div>
+          <div class="desc">Menemukan identitas sejati dan misi ruhani kehidupan.</div>
+          <a href="checkout.html?product=Jatidiri" class="btn">Beli Sekarang</a>
+        </div>
+      </div>
+
+      <!-- 12 -->
+      <div class="card">
+        <img src="../assets/img/the-dzikir-of-powerfull.png" alt="The Dzikir of Powerfull">
+        <div class="card-body">
+          <div class="title">The Dzikir of Powerfull</div>
+          <div class="desc">Kekuatan dzikir sebagai penggerak transformasi ruhani.</div>
+          <a href="checkout.html?product=The%20Dzikir%20of%20Powerfull" class="btn">Beli Sekarang</a>
+        </div>
+      </div>
+
+      <!-- 13 -->
+      <div class="card">
+        <img src="../assets/img/membongkar-realitas-hologram.png" alt="Membongkar Realitas Hologram">
+        <div class="card-body">
+          <div class="title">Membongkar Realitas Hologram</div>
+          <div class="desc">Mengaktifkan pusat qolbu & melampaui dominasi pikiran.</div>
+          <a href="checkout.html?product=Membongkar%20Realitas%20Hologram" class="btn">Beli Sekarang</a>
+        </div>
+      </div>
+
+      <!-- 14 -->
+      <div class="card">
+        <img src="../assets/img/the-untouchable.png" alt="The Untouchable">
+        <div class="card-body">
+          <div class="title">The Untouchable</div>
+          <div class="desc">Kesadaran yang tak tersentuh oleh ilusi duniawi.</div>
+          <a href="checkout.html?product=The%20Untouchable" class="btn">Beli Sekarang</a>
+        </div>
+      </div>
+
+      <!-- 15 -->
+      <div class="card">
+        <img src="../assets/img/quantum-ruh.png" alt="Quantum Ruh">
+        <div class="card-body">
+          <div class="title">Quantum Ruh</div>
+          <div class="desc">Eksplorasi dimensi ruh dalam kesadaran quantum.</div>
+          <a href="checkout.html?product=Quantum%20Ruh" class="btn">Beli Sekarang</a>
+        </div>
+      </div>
+
+      <!-- 16 -->
+      <div class="card">
+        <img src="../assets/img/zero-points-dzikir.png" alt="Zero Points Dzikir">
+        <div class="card-body">
+          <div class="title">Zero Points Dzikir</div>
+          <div class="desc">Masuk ke titik nol kesadaran melalui dzikir mendalam.</div>
+          <a href="checkout.html?product=Zero%20Points%20Dzikir" class="btn">Beli Sekarang</a>
+        </div>
+      </div>
+
+      <!-- 17 -->
+      <div class="card">
+        <img src="../assets/img/pasrah-adalah-dzikir.png" alt="Pasrah Adalah Dzikir">
+        <div class="card-body">
+          <div class="title">Pasrah Adalah Dzikir</div>
+          <div class="desc">Makna kepasrahan sebagai dzikir tertinggi kehidupan.</div>
+          <a href="checkout.html?product=Pasrah%20Adalah%20Dzikir" class="btn">Beli Sekarang</a>
+        </div>
+      </div>
+
+      <!-- 18 -->
+      <div class="card">
+        <img src="../assets/img/manunggal.png" alt="Manunggal">
+        <div class="card-body">
+          <div class="title">Manunggal</div>
+          <div class="desc">Kesatuan hamba dengan kehendak Ilahi dalam kesadaran.</div>
+          <a href="checkout.html?product=Manunggal" class="btn">Beli Sekarang</a>
+        </div>
+      </div>
+
+      <!-- 19 -->
+      <div class="card">
+        <img src="../assets/img/navigasi-cahaya.png" alt="Navigasi Cahaya">
+        <div class="card-body">
+          <div class="title">Navigasi Cahaya</div>
+          <div class="desc">Panduan berjalan di jalur cahaya kesadaran Ilahi.</div>
+          <a href="checkout.html?product=Navigasi%20Cahaya" class="btn">Beli Sekarang</a>
+        </div>
+      </div>
+
+      <!-- 20 -->
+      <div class="card">
+        <img src="../assets/img/rahasia-menemukan-kode-sumber-realitas.png" alt="Rahasia Menemukan Kode Sumber Realitas">
+        <div class="card-body">
+          <div class="title">Rahasia Menemukan Kode Sumber Realitas</div>
+          <div class="desc">Menguak kode ilahi di balik realitas kehidupan.</div>
+          <a href="checkout.html?product=Rahasia%20Menemukan%20Kode%20Sumber%20Realitas" class="btn">Beli Sekarang</a>
+        </div>
+      </div>
+
+      <!-- 21 -->
+      <div class="card">
+        <img src="../assets/img/menguak-potensi-diri-tanpa-batas.png" alt="Menguak Potensi Diri Tanpa Batas">
+        <div class="card-body">
+          <div class="title">Menguak Potensi Diri Tanpa Batas</div>
+          <div class="desc">Membuka akses potensi tak terbatas dalam diri.</div>
+          <a href="checkout.html?product=Menguak%20Potensi%20Diri%20Tanpa%20Batas" class="btn">Beli Sekarang</a>
+        </div>
+      </div>
+
+      <!-- 22 -->
+      <div class="card">
+        <img src="../assets/img/cara-jitu-berdamai-dengan-diri.png" alt="Cara Jitu Berdamai Dengan Diri">
+        <div class="card-body">
+          <div class="title">Cara Jitu Berdamai Dengan Diri</div>
+          <div class="desc">Strategi spiritual untuk berdamai dengan luka batin.</div>
+          <a href="checkout.html?product=Cara%20Jitu%20Berdamai%20Dengan%20Diri" class="btn">Beli Sekarang</a>
+        </div>
+      </div>
+
+      <!-- 23 -->
+      <div class="card">
+        <img src="../assets/img/tauhid-quantum.png" alt="Tauhid Quantum">
+        <div class="card-body">
+          <div class="title">Tauhid Quantum</div>
+          <div class="desc">Memahami tauhid dalam perspektif kesadaran quantum.</div>
+          <a href="checkout.html?product=Tauhid%20Quantum" class="btn">Beli Sekarang</a>
+        </div>
+      </div>
+
+    </div> <!-- end grid -->
+
+    <footer>
+      © 2026 Dunia Digital Shop — Toko Ebook Premium Spiritual
+    </footer>
+
+  </div> <!-- end container -->
 
 </body>
 </html>
