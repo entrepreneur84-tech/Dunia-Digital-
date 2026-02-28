@@ -2,13 +2,83 @@
 <html lang="id">
 <head>
   <meta charset="UTF-8">
-  <title>Menunggu Verifikasi</title>
-  <link rel="stylesheet" href="/assets/css/style.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Berhasil - Dunia Digital Shop</title>
+  <link rel="stylesheet" href="../assets/css/style.css">
+  <style>
+    #orderDetails .card img {
+      width: 120px;
+      float: left;
+      margin-right: 15px;
+    }
+    #orderDetails .card-body {
+      overflow: hidden;
+    }
+    #orderDetails .price {
+      font-weight: bold;
+      margin-top: 5px;
+      color: #22c55e;
+    }
+  </style>
 </head>
 <body>
   <div class="container">
-    <h2>Pembayaran Menunggu Verifikasi</h2>
-    <p>Silakan kirim bukti transfer melalui WhatsApp admin.</p>
+    <h1>✅ Pembelian Berhasil!</h1>
+    <p>Terima kasih telah berbelanja di Dunia Digital Shop. Berikut detail pesanan Anda:</p>
+
+    <div id="orderDetails"></div>
+
+    <div id="totalContainer" style="margin-top:20px;font-size:18px;font-weight:bold;">
+      Total: <span id="totalAmount">0</span>
+    </div>
+
+    <button id="backToCatalog" class="btn" style="margin-top:20px;">Kembali ke Katalog</button>
+
+    <footer style="margin-top:40px;">
+      © 2026 Dunia Digital Shop — Toko Ebook Premium Spiritual
+    </footer>
   </div>
+
+  <script src="../assets/js/app.js"></script>
+  <script src="../assets/js/analytics.js"></script>
+  <script>
+    const orderDetails = document.getElementById('orderDetails');
+    const totalAmountSpan = document.getElementById('totalAmount');
+    const backBtn = document.getElementById('backToCatalog');
+
+    // Ambil data order terakhir dari localStorage
+    const orders = JSON.parse(localStorage.getItem('orders')) || [];
+    if (orders.length === 0) {
+      orderDetails.innerHTML = '<p>Tidak ada pesanan yang ditemukan. <a href="ebooks.html">Kembali ke katalog</a></p>';
+      totalAmountSpan.textContent = 'Rp 0';
+    } else {
+      const latestOrder = orders[orders.length - 1];
+      let total = 0;
+
+      latestOrder.items.forEach(item => {
+        const price = item.harga || 99000;
+        total += price;
+
+        const card = document.createElement('div');
+        card.className = 'card';
+        card.style.marginBottom = '20px';
+        card.innerHTML = `
+          <img src="../assets/img/${item.img}" alt="${item.title}">
+          <div class="card-body">
+            <div class="title">${item.title}</div>
+            <div class="desc">${item.desc}</div>
+            <div class="price">Rp ${price.toLocaleString()}</div>
+          </div>
+        `;
+        orderDetails.appendChild(card);
+      });
+
+      totalAmountSpan.textContent = 'Rp ' + total.toLocaleString();
+    }
+
+    backBtn.addEventListener('click', () => {
+      window.location.href = 'ebooks.html';
+    });
+  </script>
 </body>
 </html>
